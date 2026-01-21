@@ -1,2 +1,0 @@
-Invoking command in '/root/pika_ros/build/sensor_tools': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /root/pika_ros/src/sensor_tools -DCMAKE_INSTALL_PREFIX=/root/pika_ros/install/sensor_tools
-Invoked command in '/root/pika_ros/build/sensor_tools' returned '1': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /root/pika_ros/src/sensor_tools -DCMAKE_INSTALL_PREFIX=/root/pika_ros/install/sensor_tools
