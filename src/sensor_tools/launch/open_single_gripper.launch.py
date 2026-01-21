@@ -6,7 +6,6 @@ from launch.substitutions import LaunchConfiguration, Command
 from launch_ros.actions import Node
 from launch.actions import IncludeLaunchDescription
 from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch import LaunchContext
 
 
 def generate_launch_description():
@@ -24,7 +23,9 @@ def generate_launch_description():
         DeclareLaunchArgument('motor_current_limit', default_value='1000.0'),
         DeclareLaunchArgument('motor_current_redundancy', default_value='500.0'),
         DeclareLaunchArgument('mit_mode', default_value='true'),
-        DeclareLaunchArgument('ctrl_rate', default_value='50.0')
+        DeclareLaunchArgument('ctrl_rate', default_value='50.0'),
+        DeclareLaunchArgument('gripper_depth_camera_no', default_value=''),
+        DeclareLaunchArgument('third_depth_camera_no', default_value='')
     ]
 
     camera_fps = LaunchConfiguration('camera_fps')
@@ -38,10 +39,25 @@ def generate_launch_description():
     motor_current_redundancy = LaunchConfiguration('motor_current_redundancy')
     mit_mode = LaunchConfiguration('mit_mode')
     ctrl_rate = LaunchConfiguration('ctrl_rate')
+    gripper_depth_camera_no = LaunchConfiguration('gripper_depth_camera_no')
+    third_depth_camera_no = LaunchConfiguration('third_depth_camera_no')
 
     depth_camera_launch = IncludeLaunchDescription(
         PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('realsense2_camera'), 'launch', 'rs_launch.py')]),
-        launch_arguments={
+        launch_arguments={'serial_no': gripper_depth_camera_no,
+                          'camera_namespace': "gripper",
+                          'camera_name': "camera",
+                          'rgb_camera.color_profile': camera_profile, 
+                          'depth_module.color_profile': camera_profile, 
+                          'depth_module.depth_profile': camera_profile,
+                          'depth_module.infra_profile': camera_profile}.items()
+    )
+    # [新增] 第三视角相机启动项
+    third_depth_camera_launch = IncludeLaunchDescription(
+        PythonLaunchDescriptionSource([os.path.join(get_package_share_directory('realsense2_camera'), 'launch', 'rs_launch.py')]),
+        launch_arguments={'serial_no': third_depth_camera_no,
+                          'camera_namespace': "third_person",  # 命名空间
+                          'camera_name': "camera",
                           'rgb_camera.color_profile': camera_profile, 
                           'depth_module.color_profile': camera_profile, 
                           'depth_module.depth_profile': camera_profile,
@@ -50,6 +66,7 @@ def generate_launch_description():
 
     return LaunchDescription(declared_arguments+[
         depth_camera_launch,
+        third_depth_camera_launch,
         Node(
             package='sensor_tools',
             executable='usb_camera.py',
@@ -60,8 +77,8 @@ def generate_launch_description():
                          'camera_width': camera_width,
                          'camera_frame_id': "camera_fisheye_link"}],
             remappings=[
-                ('/camera_rgb/color/image_raw', '/camera_fisheye/color/image_raw'),
-                ('/camera_rgb/color/camera_info', '/camera_fisheye/color/camera_info')
+                ('/camera_rgb/color/image_raw', '/gripper/camera_fisheye/color/image_raw'),
+                ('/camera_rgb/color/camera_info', '/gripper/camera_fisheye/color/camera_info')
             ],
             respawn=True,
             output='screen'
@@ -81,7 +98,7 @@ def generate_launch_description():
                 ('/gripper/data', '/gripper/data'),
                 ('/gripper/ctrl', '/gripper/ctrl'),
                 ('/gripper/joint_state', '/gripper/joint_state'),
-                ('/gripper/joint_state_ctrl', '/joint_states'),
+                ('/gripper/joint_state_ctrl', '/gripper_cmd'), # joint_state -> gripper_cmd
                 ('/joint_state_info', '/joint_states_single'),
                 ('/joint_state_gripper', '/joint_states_single_gripper'),
             ],

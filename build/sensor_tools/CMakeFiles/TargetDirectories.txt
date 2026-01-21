@@ -1,0 +1,10 @@
+/root/pika_ros/build/sensor_tools/CMakeFiles/uninstall.dir
+/root/pika_ros/build/sensor_tools/CMakeFiles/sensor_tools_uninstall.dir
+/root/pika_ros/build/sensor_tools/CMakeFiles/serial_gripper_imu.dir
+/root/pika_ros/build/sensor_tools/CMakeFiles/test.dir
+/root/pika_ros/build/sensor_tools/CMakeFiles/edit_cache.dir
+/root/pika_ros/build/sensor_tools/CMakeFiles/rebuild_cache.dir
+/root/pika_ros/build/sensor_tools/CMakeFiles/list_install_components.dir
+/root/pika_ros/build/sensor_tools/CMakeFiles/install.dir
+/root/pika_ros/build/sensor_tools/CMakeFiles/install/local.dir
+/root/pika_ros/build/sensor_tools/CMakeFiles/install/strip.dir

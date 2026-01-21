@@ -1,0 +1,1 @@
+/root/pika_ros/src/sensor_tools/scripts/setup_sensor_gripper.bash

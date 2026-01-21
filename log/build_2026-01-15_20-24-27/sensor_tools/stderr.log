@@ -1,0 +1,53 @@
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:[m[K In function ‘[01m[Kbool find_json(std::string&, int&, int&)[m[K’:
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:69:23:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Kstd::__cxx11::basic_string<char>::size_type[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K-Wsign-compare[m[K]
+   69 |         for(int i=0; [01;35m[Ki<msg.size()[m[K; i++){
+      |                      [01;35m[K~^~~~~~~~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:68:13:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[Kcount[m[K’ [[01;35m[K-Wunused-variable[m[K]
+   68 |         int [01;35m[Kcount[m[K = 0;
+      |             [01;35m[K^~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:[m[K In member function ‘[01m[Kvoid RosOperator::jointStateCtrlHandler(sensor_msgs::msg::JointState_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:437:23:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[KmotorCurrent[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  437 |                 float [01;35m[KmotorCurrent[m[K = this->motorCurrent;
+      |                       [01;35m[K^~~~~~~~~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:438:23:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[KmotorAngle[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  438 |                 float [01;35m[KmotorAngle[m[K = this->angle;
+      |                       [01;35m[K^~~~~~~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:[m[K In member function ‘[01m[Kvoid RosOperator::gripperCtrlHandler(data_msgs::msg::Gripper_<std::allocator<void> >::SharedPtr)[m[K’:
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:497:128:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[K((const std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>*)(& msg))->std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>::operator->()->data_msgs::msg::Gripper_<std::allocator<void> >::effort[m[K’ from ‘[01m[Kdata_msgs::msg::Gripper_<std::allocator<void> >::_effort_type[m[K’ {aka ‘[01m[Kdouble[m[K’} to ‘[01m[Kfloat[m[K’ [[01;35m[K-Wnarrowing[m[K]
+  497 |                                 std::vector<uint8_t> command = createBinaryCommand<float>(EFFORT_CTRL, std::vector<float>{[01;35m[Kmsg->effort[m[K});
+      |                                                                                                                           [01;35m[K~~~~~^~~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:497:128:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[K((const std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>*)(& msg))->std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>::operator->()->data_msgs::msg::Gripper_<std::allocator<void> >::effort[m[K’ from ‘[01m[Kdata_msgs::msg::Gripper_<std::allocator<void> >::_effort_type[m[K’ {aka ‘[01m[Kdouble[m[K’} to ‘[01m[Kfloat[m[K’ [[01;35m[K-Wnarrowing[m[K]
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:506:130:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[K((const std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>*)(& msg))->std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>::operator->()->data_msgs::msg::Gripper_<std::allocator<void> >::velocity[m[K’ from ‘[01m[Kdata_msgs::msg::Gripper_<std::allocator<void> >::_velocity_type[m[K’ {aka ‘[01m[Kdouble[m[K’} to ‘[01m[Kfloat[m[K’ [[01;35m[K-Wnarrowing[m[K]
+  506 |                                 std::vector<uint8_t> command = createBinaryCommand<float>(VELOCITY_CTRL, std::vector<float>{[01;35m[Kmsg->velocity[m[K, msg->velocity});
+      |                                                                                                                             [01;35m[K~~~~~^~~~~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:506:130:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[K((const std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>*)(& msg))->std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>::operator->()->data_msgs::msg::Gripper_<std::allocator<void> >::velocity[m[K’ from ‘[01m[Kdata_msgs::msg::Gripper_<std::allocator<void> >::_velocity_type[m[K’ {aka ‘[01m[Kdouble[m[K’} to ‘[01m[Kfloat[m[K’ [[01;35m[K-Wnarrowing[m[K]
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:506:145:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[K((const std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>*)(& msg))->std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>::operator->()->data_msgs::msg::Gripper_<std::allocator<void> >::velocity[m[K’ from ‘[01m[Kdata_msgs::msg::Gripper_<std::allocator<void> >::_velocity_type[m[K’ {aka ‘[01m[Kdouble[m[K’} to ‘[01m[Kfloat[m[K’ [[01;35m[K-Wnarrowing[m[K]
+  506 |                                 std::vector<uint8_t> command = createBinaryCommand<float>(VELOCITY_CTRL, std::vector<float>{msg->velocity, [01;35m[Kmsg->velocity[m[K});
+      |                                                                                                                                            [01;35m[K~~~~~^~~~~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:506:145:[m[K [01;35m[Kwarning: [m[Knarrowing conversion of ‘[01m[K((const std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>*)(& msg))->std::__shared_ptr_access<data_msgs::msg::Gripper_<std::allocator<void> >, __gnu_cxx::_S_atomic, false, false>::operator->()->data_msgs::msg::Gripper_<std::allocator<void> >::velocity[m[K’ from ‘[01m[Kdata_msgs::msg::Gripper_<std::allocator<void> >::_velocity_type[m[K’ {aka ‘[01m[Kdouble[m[K’} to ‘[01m[Kfloat[m[K’ [[01;35m[K-Wnarrowing[m[K]
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:524:31:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[KmotorCurrent[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  524 |                         float [01;35m[KmotorCurrent[m[K = this->motorCurrent;
+      |                               [01;35m[K^~~~~~~~~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:525:31:[m[K [01;35m[Kwarning: [m[Kunused variable ‘[01m[KmotorAngle[m[K’ [[01;35m[K-Wunused-variable[m[K]
+  525 |                         float [01;35m[KmotorAngle[m[K = this->angle;
+      |                               [01;35m[K^~~~~~~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:[m[K In member function ‘[01m[Kvoid RosOperator::receiving()[m[K’:
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:664:52:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Kstd::__cxx11::basic_string<char>::size_type[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K-Wsign-compare[m[K]
+  664 |                                         if([01;35m[Kend + 1 < msg.size()[m[K)
+      |                                            [01;35m[K~~~~~~~~^~~~~~~~~~~~[m[K
+/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp: In instantiation of ‘[01m[Kstd::vector<unsigned char, std::allocator<unsigned char> > RosOperator::createBinaryCommand(uint8_t, std::vector<BufferT>, bool) [with T = float; uint8_t = unsigned char][m[K’:
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:280:61:[m[K   required from here
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:153:39:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Kstd::vector<float>::size_type[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K-Wsign-compare[m[K]
+  153 |                         for(int i=0; [01;35m[Ki<values.size()[m[K; i++){
+      |                                      [01;35m[K~^~~~~~~~~~~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:171:39:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Kstd::vector<float>::size_type[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K-Wsign-compare[m[K]
+  171 |                         for(int i=0; [01;35m[Ki<values.size()[m[K; i++){
+      |                                      [01;35m[K~^~~~~~~~~~~~~~[m[K
+/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp: In instantiation of ‘[01m[Kstd::vector<unsigned char, std::allocator<unsigned char> > RosOperator::createBinaryCommand(uint8_t, std::vector<BufferT>, bool) [with T = int; uint8_t = unsigned char][m[K’:
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:325:60:[m[K   required from here
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:153:39:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Kstd::vector<int>::size_type[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K-Wsign-compare[m[K]
+  153 |                         for(int i=0; [01;35m[Ki<values.size()[m[K; i++){
+      |                                      [01;35m[K~^~~~~~~~~~~~~~[m[K
+[01m[K/root/pika_ros/src/sensor_tools/src/serial_gripper_imu.cpp:171:39:[m[K [01;35m[Kwarning: [m[Kcomparison of integer expressions of different signedness: ‘[01m[Kint[m[K’ and ‘[01m[Kstd::vector<int>::size_type[m[K’ {aka ‘[01m[Klong unsigned int[m[K’} [[01;35m[K-Wsign-compare[m[K]
+  171 |                         for(int i=0; [01;35m[Ki<values.size()[m[K; i++){
+      |                                      [01;35m[K~^~~~~~~~~~~~~~[m[K

@@ -1,0 +1,1 @@
+/root/pika_ros/src/sensor_tools/scripts/find_usb_camera.py

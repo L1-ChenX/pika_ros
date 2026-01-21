@@ -1,0 +1,1 @@
+/root/pika_ros/src/sensor_tools/scripts/pika_localization_setup.bash

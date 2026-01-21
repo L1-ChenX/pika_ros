@@ -1,0 +1,1 @@
+/root/pika_ros/src/sensor_tools/launch/open_sensor_gripper.launch.py

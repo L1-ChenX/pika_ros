@@ -9,28 +9,35 @@ import time
 def run_command(command):
     """运行命令并返回输出"""
     try:
-        result = subprocess.run(command, shell=True, capture_output=True, text=True)
+        result = subprocess.run(command, shell=True, capture_output=True, text=True, check=True)
         return result.stdout.strip()
+    except subprocess.CalledProcessError as e:
+        print(f"执行命令时出错: {e.stderr.strip()}")
+        return None
     except Exception as e:
         print(f"执行命令时出错: {str(e)}")
         return None
 
 
 def get_device_info():
-    """获取设备信息"""
-    # 运行 rs-enumerate-devices 命令
+    """
+    获取设备信息。
+    返回 (RealSense序列号, 真实串口路径, 真实鱼眼相机端口号)
+    例如: ("3151...", "ttyUSB0", 18)
+    """
+    # 1. 获取 RealSense 序列号
     rs_output = run_command("rs-enumerate-devices -s")
     if not rs_output:
-        print("无法获取到深度摄像头数据")
-        return None, None
+        print("无法获取到深度摄像头数据 (rs-enumerate-devices -s 失败)")
+        return None, None, None
 
-    # 解析输出获取序列号
     serial_match = re.search(r'Intel RealSense D405\s+(\d+)', rs_output)
     if not serial_match:
-        print("无法获取到深度摄像头数据")
-        return None, None
+        print("无法解析深度摄像头序列号")
+        return None, None, None
     serial_number = serial_match.group(1)
 
+<<<<<<< HEAD
     # 运行 udevadm 命令
     ls_output = run_command("ls /dev | grep ttyUSB | grep -v ttyUSB50 | grep -v ttyUSB51 | grep -v ttyUSB60 | grep -v ttyUSB61 | grep -v ttyUSB70")
     count = ls_output.count("tty")
@@ -85,9 +92,76 @@ def get_device_info():
     udev_output = run_command(f"udevadm info /dev/{video_path} | grep DEVPATH")
     video_path = udev_output[:udev_output.find("video")][:-1]  # 获取 1-13.2.4:1.0 这样的格式
     video_path = video_path[video_path.rfind("/")+1:]
+=======
+    # 2. 获取串口路径 (假设此时只插入了一个新设备)
+    ls_output = run_command("ls /dev/ttyUSB*")
+    if not ls_output:
+        print("无法获取到串口数据 (未找到 /dev/ttyUSB* 设备)")
+        return None, None, None
+    
+    # 假设有多个ttyUSB，我们取第一个
+    serial_path = ls_output.split('\n')[0]
+    serial_device_name = serial_path.split('/')[-1]
 
-    return serial_number, usb_path, video_path
+    # 3. 获取鱼眼相机端口号 (通过GUI)
+    print("寻找鱼眼摄像头，请在出现鱼眼摄像头时按下's'，非鱼眼摄像头则按下'q'(注意在图像窗口按下，不要在终端！！！)")
+    video_port = None
+    cv2.setLogLevel(0)
+    for i in range(50): # 原始脚本只检查到50
+        cap = cv2.VideoCapture(i)
+        if not cap.isOpened():
+            continue
+            
+        fourcc = cv2.VideoWriter_fourcc(*'MJPG')
+        cap.set(cv2.CAP_PROP_FOURCC, fourcc)
+        cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+        cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+        cap.set(cv2.CAP_PROP_FPS, 30)
+        
+        key = None
+        
+        # --- 这是修复的部分 ---
+        # 恢复了原始脚本的 'while True' 循环，使其等待按键
+        try:
+            while True:
+                ret, frame = cap.read()
+                if not ret:
+                    # 如果摄像头断开或读取失败
+                    key = -1 # 设置一个无效键来跳出
+                    break
+                
+                cv2.imshow(f"/dev/video{i}", frame)
+                key = cv2.waitKey(1) # 必须是 waitKey(1) 才能持续显示视频
+                
+                if key & 0xFF == ord('q'):
+                    break
+                elif key & 0xFF == ord('s'):
+                    break
+            
+            cv2.destroyAllWindows()
 
+        except cv2.error:
+            print(f"无法打开 /dev/video{i} 的显示窗口。")
+            cv2.destroyAllWindows()
+            cap.release()
+            continue
+        # --- 修复结束 ---
+
+        if key is not None and key & 0xFF == ord('s'):
+            video_port = i
+            cap.release()
+            break
+        
+        cap.release() # 如果按了 'q' 或循环中断，也释放掉
+
+    cv2.destroyAllWindows()
+>>>>>>> 1de737c (init)
+
+    if video_port is None:
+        print("无法获取到鱼眼摄像头数据 (用户未选择)")
+        return None, None, None
+
+<<<<<<< HEAD
 
 def generate_setup_bash(left_info, right_info, select):
     if select == "1":
@@ -149,14 +223,20 @@ sudo udevadm control --reload-rules && sudo service udev restart && sudo udevadm
     with open(path, "w") as f:
         f.write(content)
     os.chmod(path, 0o755)
+=======
+    # 返回真实的设备信息
+    return serial_number, serial_device_name, video_port
+>>>>>>> 1de737c (init)
 
 
 def generate_start_bash(left_info, right_info, select):
+    # left_info = (sensor_rs_serial, sensor_tty_name, sensor_video_port)
+    # right_info = (gripper_rs_serial, gripper_tty_name, gripper_video_port)
+    
     if select == "1":
         path = "start_multi_sensor.bash"
-        usb_num1 = 50
-        usb_num2 = 51
         content = f"""
+#!/bin/bash
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 camera_fps=30
 camera_width=640
@@ -164,12 +244,10 @@ camera_height=480
 l_depth_camera_no={left_info[0]}
 r_depth_camera_no={right_info[0]}
 
-l_serial_port=/dev/ttyUSB{usb_num1}
-r_serial_port=/dev/ttyUSB{usb_num2}
-sudo chmod a+rw /dev/ttyUSB*
-l_fisheye_port={usb_num1}
-r_fisheye_port={usb_num2}
-sudo chmod a+rw /dev/video*
+l_serial_port=/dev/{left_info[1]}
+r_serial_port=/dev/{right_info[1]}
+l_fisheye_port={left_info[2]}
+r_fisheye_port={right_info[2]}
 
 source /opt/ros/humble/setup.bash && cd $SCRIPT_DIR/../install/sensor_tools/share/sensor_tools/scripts/ && chmod 777 usb_camera.py
 if [ -n "$1" ]; then
@@ -177,12 +255,11 @@ if [ -n "$1" ]; then
 else
     source $SCRIPT_DIR/../install/setup.bash && ros2 launch sensor_tools open_multi_sensor.launch.py l_depth_camera_no:=_$l_depth_camera_no r_depth_camera_no:=_$r_depth_camera_no l_serial_port:=$l_serial_port r_serial_port:=$r_serial_port l_fisheye_port:=$l_fisheye_port r_fisheye_port:=$r_fisheye_port camera_fps:=$camera_fps camera_width:=$camera_width camera_height:=$camera_height camera_profile:=$camera_width,$camera_height,$camera_fps
 fi
-                """
+        """
     if select == "2":
         path = "start_multi_gripper.bash"
-        usb_num1 = 60
-        usb_num2 = 61
         content = f"""
+#!/bin/bash
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 camera_fps=30
 camera_width=640
@@ -190,12 +267,10 @@ camera_height=480
 l_depth_camera_no={left_info[0]}
 r_depth_camera_no={right_info[0]}
 
-l_serial_port=/dev/ttyUSB{usb_num1}
-r_serial_port=/dev/ttyUSB{usb_num2}
-sudo chmod a+rw /dev/ttyUSB*
-l_fisheye_port={usb_num1}
-r_fisheye_port={usb_num2}
-sudo chmod a+rw /dev/video*
+l_serial_port=/dev/{left_info[1]}
+r_serial_port=/dev/{right_info[1]}
+l_fisheye_port={left_info[2]}
+r_fisheye_port={right_info[2]}
 
 source /opt/ros/humble/setup.bash && cd $SCRIPT_DIR/../install/sensor_tools/share/sensor_tools/scripts/ && chmod 777 usb_camera.py
 if [ -n "$1" ]; then
@@ -203,12 +278,11 @@ if [ -n "$1" ]; then
 else
     source $SCRIPT_DIR/../install/setup.bash && ros2 launch sensor_tools open_multi_gripper.launch.py l_depth_camera_no:=_$l_depth_camera_no r_depth_camera_no:=_$r_depth_camera_no l_serial_port:=$l_serial_port r_serial_port:=$r_serial_port l_fisheye_port:=$l_fisheye_port r_fisheye_port:=$r_fisheye_port camera_fps:=$camera_fps camera_width:=$camera_width camera_height:=$camera_height camera_profile:=$camera_width,$camera_height,$camera_fps
 fi
-                """
+        """
     if select == "3":
         path = "start_sensor_gripper.bash"
-        usb_num1 = 50
-        usb_num2 = 60
         content = f"""
+#!/bin/bash
 SCRIPT_DIR=$(dirname "$(readlink -f "$0")")
 camera_fps=30
 camera_width=640
@@ -216,15 +290,14 @@ camera_height=480
 sensor_depth_camera_no={left_info[0]}
 gripper_depth_camera_no={right_info[0]}
 
-sensor_serial_port=/dev/ttyUSB{usb_num1}
-gripper_serial_port=/dev/ttyUSB{usb_num2}
-sudo chmod a+rw /dev/ttyUSB*
-sensor_fisheye_port={usb_num1}
-gripper_fisheye_port={usb_num2}
-sudo chmod a+rw /dev/video*
+sensor_serial_port=/dev/{left_info[1]}
+gripper_serial_port=/dev/{right_info[1]}
+sensor_fisheye_port={left_info[2]}
+gripper_fisheye_port={right_info[2]}
 
 source /opt/ros/humble/setup.bash && cd $SCRIPT_DIR/../install/sensor_tools/share/sensor_tools/scripts/ && chmod 777 usb_camera.py
 source $SCRIPT_DIR/../install/setup.bash && ros2 launch sensor_tools open_sensor_gripper.launch.py sensor_depth_camera_no:=_$sensor_depth_camera_no gripper_depth_camera_no:=_$gripper_depth_camera_no sensor_serial_port:=$sensor_serial_port gripper_serial_port:=$gripper_serial_port sensor_fisheye_port:=$sensor_fisheye_port gripper_fisheye_port:=$gripper_fisheye_port camera_fps:=$camera_fps camera_width:=$camera_width camera_height:=$camera_height camera_profile:=$camera_width,$camera_height,$camera_fps
+<<<<<<< HEAD
                 """
     if select == "4":
         path = "start_helmet.bash"
@@ -243,13 +316,19 @@ sudo chmod a+rw /dev/video*
 source /opt/ros/humble/setup.bash && cd $SCRIPT_DIR/../install/sensor_tools/share/sensor_tools/scripts/ && chmod 777 usb_camera.py
 source $SCRIPT_DIR/../install/setup.bash && ros2 launch sensor_tools open_helmet.launch.py depth_camera_no:=_$helmet_depth_camera_no serial_port:=$helmet_serial_port fisheye_port:=$helmet_fisheye_port camera_fps:=$camera_fps camera_width:=$camera_width camera_height:=$camera_height camera_profile:=$camera_width,$camera_height,$camera_fps
                 """
+=======
+        """
+>>>>>>> 1de737c (init)
     with open(path, "w") as f:
         f.write(content)
     os.chmod(path, 0o755)
 
 
 def main():
-    print("=== pika配置工具 ===")
+    print("=== pika配置工具 (Docker 修改版) ===")
+    print("!!! 重要提示：请确保您已在宿主机 (Host) 上设置了正确的 udev 权限规则 !!!")
+    print("!!! 并且您必须已使用 X11 转发 (xhost + ...) 启动了此容器 !!!")
+    
     select = None
     while True:
         select = input("请选择绑定\n1.两个pika sensor(手持夹爪)\n2.两个pika gripper(安装于机械臂上的夹爪)\n3.一个pika sensor 一个pika gripper\n4.一个pika helmet\n请输入：")
@@ -273,18 +352,20 @@ def main():
             print("请输入1、2、3或4")
             continue
 
-    print(f"请插入{device1}设备，然后按回车键继续...")
+    print(f"--- {device1} 设备配置 ---")
+    print(f"请插入 {device1} 设备 (确保其他设备已拔出)，然后按回车键继续...")
     input()
-    print(f"正在获取{device1}设备信息...")
+    print(f"正在获取 {device1} 设备信息...")
     while True:
         left_info = get_device_info()
-        if not left_info[0]:
-            print(f"无法获取{device1}设备信息，请检查设备连接，然后按回车键继续...")
+        if not left_info[0] or not left_info[1] or left_info[2] is None:
+            print(f"无法获取 {device1} 完整设备信息，请检查设备连接，然后按回车键重试...")
             input()
         else:
             break
-    print(f"{device1}设备信息: {left_info[0]} {left_info[1]} {left_info[2]}")
+    print(f"{device1} 设备信息: RS_Serial={left_info[0]}, Serial_Port={left_info[1]}, Fisheye_Port={left_info[2]}")
 
+<<<<<<< HEAD
     right_info = None
     if device2 is not None:
         print(f"请拔出{device1}设备，插入{device2}设备（注意不要插在同一个USB口，配置完成后USB口不能改变），然后按回车键继续...")
@@ -298,11 +379,25 @@ def main():
             else:
                 break
         print(f"{device2}设备信息: {right_info[0]} {right_info[1]} {right_info[2]}")
+=======
+    print(f"--- {device2} 设备配置 ---")
+    print(f"请拔出 {device1} 设备，插入 {device2} 设备，然后按回车键继续...")
+    input()
+    print(f"正在获取 {device2} 设备信息...")
+    while True:
+        right_info = get_device_info()
+        if not right_info[0] or not right_info[1] or right_info[2] is None:
+            print(f"无法获取 {device2} 完整设备信息，请检查设备连接，然后按回车键重试...")
+            input()
+        else:
+            break
+    print(f"{device2} 设备信息: RS_Serial={right_info[0]}, Serial_Port={right_info[1]}, Fisheye_Port={right_info[2]}")
+>>>>>>> 1de737c (init)
 
     # 生成配置文件
-    print("正在生成配置文件...")
-    generate_setup_bash(left_info, right_info, select)
+    print("正在生成启动脚本...")
     generate_start_bash(left_info, right_info, select)
+<<<<<<< HEAD
     setup_path = "setup_multi_sensor.bash" if select=="1" else ("setup_multi_gripper.bash" if select=="2" else ("setup_sensor_gripper.bash" if select == "3" else "setup_helmet.bash"))
     start_path = "start_multi_sensor.bash" if select=="1" else ("start_multi_gripper.bash" if select=="2" else ("start_sensor_gripper.bash" if select == "3" else "start_helmet.bash"))
     print("配置完成！已生成以下文件：")
@@ -346,8 +441,17 @@ def main():
             print("找不到helmet串口")
             continue
         break
+=======
+    
+    start_path = "start_multi_sensor.bash" if select=="1" else ("start_multi_gripper.bash" if select=="2" else "start_sensor_gripper.bash")
+    print("配置完成！已生成启动文件：")
+    print(f"1. {start_path}")
+    print(f"!!! 已跳过无效的 udev 步骤。!!!")
+    
+>>>>>>> 1de737c (init)
     print("绑定成功，启动设备方法：")
-    print(f"2. 然后运行: bash {start_path}")
+    print(f"1. 确保两个设备都已插入。")
+    print(f"2. 运行: bash {start_path}")
 
 
 if __name__ == "__main__":

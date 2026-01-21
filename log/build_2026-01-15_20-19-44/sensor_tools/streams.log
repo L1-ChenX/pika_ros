@@ -1,0 +1,111 @@
+[0.004s] Invoking command in '/root/pika_ros/build/sensor_tools': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /root/pika_ros/src/sensor_tools -DCMAKE_INSTALL_PREFIX=/root/pika_ros/install/sensor_tools
+[0.028s] -- The C compiler identification is GNU 11.4.0
+[0.051s] -- The CXX compiler identification is GNU 11.4.0
+[0.054s] -- Detecting C compiler ABI info
+[0.082s] -- Detecting C compiler ABI info - done
+[0.085s] -- Check for working C compiler: /usr/bin/cc - skipped
+[0.085s] -- Detecting C compile features
+[0.085s] -- Detecting C compile features - done
+[0.087s] -- Detecting CXX compiler ABI info
+[0.119s] -- Detecting CXX compiler ABI info - done
+[0.122s] -- Check for working CXX compiler: /usr/bin/c++ - skipped
+[0.122s] -- Detecting CXX compile features
+[0.122s] -- Detecting CXX compile features - done
+[0.123s] -- Found ament_cmake: 1.3.12 (/opt/ros/humble/share/ament_cmake/cmake)
+[0.191s] -- Found Python3: /usr/bin/python3 (found version "3.10.12") found components: Interpreter 
+[0.231s] -- Found rclcpp: 16.0.15 (/opt/ros/humble/share/rclcpp/cmake)
+[0.250s] -- Found rosidl_generator_c: 3.1.7 (/opt/ros/humble/share/rosidl_generator_c/cmake)
+[0.252s] -- Found rosidl_adapter: 3.1.7 (/opt/ros/humble/share/rosidl_adapter/cmake)
+[0.255s] -- Found rosidl_generator_cpp: 3.1.7 (/opt/ros/humble/share/rosidl_generator_cpp/cmake)
+[0.260s] -- Using all available rosidl_typesupport_c: rosidl_typesupport_fastrtps_c;rosidl_typesupport_introspection_c
+[0.267s] -- Using all available rosidl_typesupport_cpp: rosidl_typesupport_fastrtps_cpp;rosidl_typesupport_introspection_cpp
+[0.289s] -- Found rmw_implementation_cmake: 6.1.2 (/opt/ros/humble/share/rmw_implementation_cmake/cmake)
+[0.291s] -- Found rmw_fastrtps_cpp: 6.2.8 (/opt/ros/humble/share/rmw_fastrtps_cpp/cmake)
+[0.343s] -- Found OpenSSL: /usr/lib/x86_64-linux-gnu/libcrypto.so (found version "3.0.2")  
+[0.359s] -- Found FastRTPS: /opt/ros/humble/include  
+[0.381s] -- Using RMW implementation 'rmw_fastrtps_cpp' as default
+[0.386s] -- Looking for pthread.h
+[0.418s] -- Looking for pthread.h - found
+[0.418s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD
+[0.450s] -- Performing Test CMAKE_HAVE_LIBC_PTHREAD - Success
+[0.451s] -- Found Threads: TRUE  
+[0.475s] -- Found rclpy: 3.3.17 (/opt/ros/humble/share/rclpy/cmake)
+[0.476s] -- Found cv_bridge: 3.2.1 (/opt/ros/humble/share/cv_bridge/cmake)
+[0.497s] -- Found std_srvs: 4.9.0 (/opt/ros/humble/share/std_srvs/cmake)
+[0.503s] -- Found nav_msgs: 4.9.0 (/opt/ros/humble/share/nav_msgs/cmake)
+[0.512s] -- Found visualization_msgs: 4.9.0 (/opt/ros/humble/share/visualization_msgs/cmake)
+[0.521s] -- Found pcl_conversions: 2.4.5 (/opt/ros/humble/share/pcl_conversions/cmake)
+[0.540s] -- Checking for module 'eigen3'
+[0.548s] --   Found eigen3, version 3.4.0
+[0.569s] -- Found Eigen: /usr/include/eigen3 (Required is at least version "3.1") 
+[0.569s] -- Eigen found (include: /usr/include/eigen3, version: 3.4.0)
+[0.588s] -- Checking for module 'flann'
+[0.595s] --   Found flann, version 1.9.1
+[0.617s] -- Found FLANN: /usr/lib/x86_64-linux-gnu/libflann_cpp.so  
+[0.617s] -- FLANN found (include: /usr/include, lib: /usr/lib/x86_64-linux-gnu/libflann_cpp.so)
+[1.068s] -- Checking for module 'libusb-1.0'
+[1.076s] --   Found libusb-1.0, version 1.0.25
+[1.097s] -- Found libusb: /usr/lib/x86_64-linux-gnu/libusb-1.0.so  
+[1.098s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[1.130s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[1.198s] -- Eigen found (include: /usr/include/eigen3, version: 3.4.0)
+[1.202s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[1.206s] -- OpenNI2 found (version: 2.2.0.33, include: /usr/include/openni2, lib: /usr/lib/x86_64-linux-gnu/libOpenNI2.so;libusb::libusb)
+[1.269s] -- Found Qhull version 8.0.2
+[1.331s] -- OpenNI found (version: 1.5.4.0, include: /usr/include/ni, lib: /usr/lib/libOpenNI.so;libusb::libusb)
+[1.394s] -- Found PCL_COMMON: /usr/lib/x86_64-linux-gnu/libpcl_common.so  
+[1.395s] -- Found PCL_KDTREE: /usr/lib/x86_64-linux-gnu/libpcl_kdtree.so  
+[1.395s] -- Found PCL_OCTREE: /usr/lib/x86_64-linux-gnu/libpcl_octree.so  
+[1.395s] -- Found PCL_SEARCH: /usr/lib/x86_64-linux-gnu/libpcl_search.so  
+[1.396s] -- Found PCL_SAMPLE_CONSENSUS: /usr/lib/x86_64-linux-gnu/libpcl_sample_consensus.so  
+[1.396s] -- Found PCL_FILTERS: /usr/lib/x86_64-linux-gnu/libpcl_filters.so  
+[1.396s] -- Found PCL_2D: /usr/include/pcl-1.12  
+[1.396s] -- Found PCL_GEOMETRY: /usr/include/pcl-1.12  
+[1.397s] -- Found PCL_IO: /usr/lib/x86_64-linux-gnu/libpcl_io.so  
+[1.397s] -- Found PCL_FEATURES: /usr/lib/x86_64-linux-gnu/libpcl_features.so  
+[1.397s] -- Found PCL_ML: /usr/lib/x86_64-linux-gnu/libpcl_ml.so  
+[1.398s] -- Found PCL_SEGMENTATION: /usr/lib/x86_64-linux-gnu/libpcl_segmentation.so  
+[1.398s] -- Found PCL_VISUALIZATION: /usr/lib/x86_64-linux-gnu/libpcl_visualization.so  
+[1.398s] -- Found PCL_SURFACE: /usr/lib/x86_64-linux-gnu/libpcl_surface.so  
+[1.399s] -- Found PCL_REGISTRATION: /usr/lib/x86_64-linux-gnu/libpcl_registration.so  
+[1.399s] -- Found PCL_KEYPOINTS: /usr/lib/x86_64-linux-gnu/libpcl_keypoints.so  
+[1.399s] -- Found PCL_TRACKING: /usr/lib/x86_64-linux-gnu/libpcl_tracking.so  
+[1.400s] -- Found PCL_RECOGNITION: /usr/lib/x86_64-linux-gnu/libpcl_recognition.so  
+[1.400s] -- Found PCL_STEREO: /usr/lib/x86_64-linux-gnu/libpcl_stereo.so  
+[1.400s] -- Found PCL_APPS: /usr/lib/x86_64-linux-gnu/libpcl_apps.so  
+[1.401s] -- Found PCL_IN_HAND_SCANNER: /usr/include/pcl-1.12  
+[1.401s] -- Found PCL_MODELER: /usr/include/pcl-1.12  
+[1.402s] -- Found PCL_POINT_CLOUD_EDITOR: /usr/include/pcl-1.12  
+[1.403s] -- Found PCL_OUTOFCORE: /usr/lib/x86_64-linux-gnu/libpcl_outofcore.so  
+[1.404s] -- Found PCL_PEOPLE: /usr/lib/x86_64-linux-gnu/libpcl_people.so  
+[1.406s] -- Found tf2: 0.25.16 (/opt/ros/humble/share/tf2/cmake)
+[1.413s] -- Found tf2_geometry_msgs: 0.25.16 (/opt/ros/humble/share/tf2_geometry_msgs/cmake)
+[1.422s] -- Found eigen3_cmake_module: 0.1.1 (/opt/ros/humble/share/eigen3_cmake_module/cmake)
+[1.423s] -- Found Eigen3: TRUE (found version "3.4.0") 
+[1.423s] -- Ensuring Eigen3 include directory is part of orocos-kdl CMake target
+[1.469s] -- Found tf2_sensor_msgs: 0.25.16 (/opt/ros/humble/share/tf2_sensor_msgs/cmake)
+[1.471s] -- Found tf2_eigen: 0.25.16 (/opt/ros/humble/share/tf2_eigen/cmake)
+[1.475s] -- Found PkgConfig: /usr/bin/pkg-config (found version "0.29.2") 
+[1.478s] -- Found Boost: /usr/lib/x86_64-linux-gnu/cmake/Boost-1.74.0/BoostConfig.cmake (found version "1.74.0") found components: system 
+[1.478s] -- Checking for module 'jsoncpp'
+[1.488s] --   Found jsoncpp, version 1.9.5
+[1.520s] [31mCMake Error at CMakeLists.txt:38 (find_package):
+[1.520s]   By not providing "Finddata_msgs.cmake" in CMAKE_MODULE_PATH this project
+[1.520s]   has asked CMake to find a package configuration file provided by
+[1.520s]   "data_msgs", but CMake did not find one.
+[1.520s] 
+[1.520s]   Could not find a package configuration file provided by "data_msgs" with
+[1.520s]   any of the following names:
+[1.520s] 
+[1.520s]     data_msgsConfig.cmake
+[1.520s]     data_msgs-config.cmake
+[1.520s] 
+[1.520s]   Add the installation prefix of "data_msgs" to CMAKE_PREFIX_PATH or set
+[1.520s]   "data_msgs_DIR" to a directory containing one of the above files.  If
+[1.520s]   "data_msgs" provides a separate development package or SDK, be sure it has
+[1.520s]   been installed.
+[1.520s] 
+[1.520s] [0m
+[1.520s] -- Configuring incomplete, errors occurred!
+[1.520s] See also "/root/pika_ros/build/sensor_tools/CMakeFiles/CMakeOutput.log".
+[1.530s] Invoked command in '/root/pika_ros/build/sensor_tools' returned '1': CMAKE_PREFIX_PATH=/opt/ros/humble /usr/bin/cmake /root/pika_ros/src/sensor_tools -DCMAKE_INSTALL_PREFIX=/root/pika_ros/install/sensor_tools
